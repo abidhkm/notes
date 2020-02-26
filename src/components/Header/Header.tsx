@@ -3,18 +3,17 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   TouchableOpacity,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 interface HProps {
-  navigation:{
-    openDrawer:() => any
+  navigation: {
+    openDrawer: () => any
   }
 }
 
-export default function Header({ navigation }:HProps) {
+export default function Header({ navigation }: HProps) {
   return (
     <View style={styles.header}>
       <TouchableOpacity
@@ -38,8 +37,9 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    justifyContent: 'center',
     textAlign: 'center',
+    position: 'relative',
+    right: 20,
     fontWeight: 'bold',
     fontSize: 20,
     color: 'white',
