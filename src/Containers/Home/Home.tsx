@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   StyleSheet,
   View,
@@ -10,6 +10,7 @@ import Header from '../../components/Header/Header';
 import Card from '../../components/Card/Card';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
+import {AppContext} from '../../../App'
 
 interface HProps {
   navigation: any;
@@ -17,9 +18,7 @@ interface HProps {
 
 export default function Home(props: HProps) {
   const { navigation } = props;
-  const notesVar = [{ note: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum' },
-   { note: 'Sample Note' }, { note: 'Sample Note' },{ note: 'Sample Note' },{ note: 'Sample Note' },{ note: 'Sample Note' },{ note: 'Sample Note' },{ note: 'Sample Note' }, ]
-  const [notes] = useState(notesVar);
+  const {notes} = useContext(AppContext)
 
   return (
     <View  style={styles.wrapper}>
@@ -27,13 +26,13 @@ export default function Home(props: HProps) {
       <ScrollView>
         <View style={styles.container} >
           {
-            notesVar.map((res, index) => <Card note={res.note} key={index} />)
+            notes.map((res, index) => <Card note={res.note} key={index} />)
           }
         </View>
       </ScrollView>
       <View style={styles.newNoteBtn} >
       <TouchableOpacity onPress={()=>navigation.navigate('NewNote')} >
-        <Ionicons name="md-add-circle" size={70} color="coral" />
+        <Ionicons name="md-add-circle" size={70} color="rgb(60, 57, 56)" />
       </TouchableOpacity>
       </View>
     </View>

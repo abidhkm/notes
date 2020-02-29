@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import {
     StyleSheet,
     View,
-    Text,
     TextInput,
     Button,
     TouchableOpacity,
+    Platform,
+    ToastAndroid,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { AppContext } from '../../../App';
 
 
 interface HProps {
@@ -16,7 +18,24 @@ interface HProps {
 
 export default function NewNote(props: HProps) {
 
-    const [value, setValue] = useState('test')
+    const [value, setValue] = useState('')
+    const {notes,setNotes} = useContext(AppContext)
+
+    const handleOnSave = () => {
+        if(value.length>3) {
+            if(notes.length === 1 && notes[0].note === '') {
+                setNotes([{note:value}])
+            } else {
+                setNotes([...notes,{note:value}]);
+            }
+            setValue('');
+            props.navigation.navigate('Home');
+        }else {
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Atleast 3 characters needed', ToastAndroid.SHORT)
+              } 
+        }
+    };
 
     return (
         <View style={styles.container} >
@@ -35,7 +54,7 @@ export default function NewNote(props: HProps) {
                     onChangeText={text => setValue(text)}
                     value={value}
                 />
-                <Button title="Save" onPress={() => { }} />
+                <Button title="Save" onPress={handleOnSave} />
             </View>
         </View>
     );
