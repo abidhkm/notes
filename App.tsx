@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createDrawerNavigator,
@@ -9,7 +9,9 @@ import {
 import Home from './src/Containers/Home/Home';
 import { themes, Ithemes } from './src/constants/themes';
 import { ThemeContext } from './src/utils/themeContext';
-import NewNote from './src/Containers/NewNote/NewNote'
+import NewNote from './src/Containers/NewNote/NewNote';
+
+var Datastore = require('react-native-local-mongodb');
 
 const Drawer = createDrawerNavigator();
 
@@ -41,6 +43,20 @@ export default function App() {
   const [theme, setTheme] = useState(themes.light);
   const notesVar = [{ note: '' } ]
   const [notes,setNotes] = useState<NoteVariable[]>(notesVar);
+
+  useEffect(() => {
+    const db = new Datastore({ filename: 'asyncStorageKey', autoload: true });
+    db.insert([{ a: 5 }, { a: 42 }, {system: 'solar', test:'test'}], function (err:any, newDocs:any) {
+      // Two documents were inserted in the database
+      console.log(newDocs,'2')
+  
+    });
+    db.find({ system: 'solar' }, function (err:any, docs:any) {
+      console.log(docs,'2')
+      // docs is an array containing documents Mars, Earth, Jupiter
+      // If no document is found, docs is equal to []
+  }); 
+  } ,[])
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
